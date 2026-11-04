@@ -4,8 +4,9 @@ const { app, db } = createApp({
   uploadDir: process.env.UPLOAD_DIR,
 });
 const port = Number(process.env.PORT || 4316);
-const server = app.listen(port, "127.0.0.1", () =>
-  console.log(`Estoque disponível em http://127.0.0.1:${port}`),
+const host = process.env.HOST || "127.0.0.1";
+const server = app.listen(port, host, () =>
+  console.log(`Estoque disponível em http://${host}:${port}`),
 );
 for (const signal of ["SIGINT", "SIGTERM"])
   process.on(signal, () =>
