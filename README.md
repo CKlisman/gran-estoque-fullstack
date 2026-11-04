@@ -72,7 +72,7 @@ Os testes HTTP cobrem CRUD, validações, duplicidade, consultas nos dois sentid
 
 ## Escopo e limites
 
-Projeto acadêmico para **uso local**, sem login. O servidor escuta apenas em `127.0.0.1`; não está preparado para receber acesso público ou dados sensíveis. A publicação do código no GitHub não hospeda o aplicativo. Banco local, uploads, `.env` e dependências ficam fora do repositório.
+Projeto acadêmico **sem login**. Por padrão, o servidor escuta em `127.0.0.1`; para a demonstração pública no Render, `render.yaml` define `HOST=0.0.0.0`. Use somente dados fictícios nessa instância. O serviço gratuito suspende após inatividade e seu disco é temporário: cadastros e imagens enviados pela demonstração podem desaparecer ao suspender, reiniciar ou publicar novamente. O banco local, uploads, `.env` e dependências ficam fora do repositório.
 
 O exercício usa CNPJ **numérico** de 14 dígitos, conforme o protótipo da disciplina. Não contempla CNPJ alfanumérico. A interface trata preço em reais e quantidades inteiras; não implementa histórico de entradas/saídas, vendas, faturamento, paginação ou controle de usuários. Imagens aceitas: PNG, JPEG e WebP, até 2 MB e 20 milhões de pixels. A exclusão de imagem é definitiva no armazenamento local.
 

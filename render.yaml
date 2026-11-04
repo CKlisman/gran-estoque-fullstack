@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: gran-estoque-fullstack
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: NODE_VERSION
+        value: 24.16.0
+      - key: DB_PATH
+        value: /tmp/gran-estoque.db
+      - key: UPLOAD_DIR
+        value: /tmp/gran-estoque-uploads
