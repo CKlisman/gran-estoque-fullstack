@@ -1,6 +1,6 @@
 # Sistema de estoque — Projeto Integrador Gran
 
-Data: 04/11/2026. Autor: Caio Klisman. Estado: proposta para aprovação; implementação ainda não iniciada.
+Data: 04/11/2026. Autor: Caio Klisman. Estado: aprovado pelo usuário em 04/11/2026; implementação concluída.
 
 ## Propósito e entrega
 
@@ -64,4 +64,4 @@ Todos os campos têm rótulo, erro associado, indicação de obrigatoriedade e f
 
 ## Situação atual
 
-Os textos de apoio foram lidos. Node v24.16.0, npm 11.13.0 e Git 2.54.0 estão disponíveis. Não há código deste sistema criado ou testes executados. A implementação aguarda aprovação deste desenho, conforme a skill de brainstorming.
+Os textos de apoio foram lidos. Node v24.16.0, npm 11.13.0 e Git 2.54.0 estão disponíveis. Implementação concluída conforme este desenho aprovado. Testes: 8 grupos HTTP, 3 fluxos de navegador e build aprovados. Repositório GitHub publicado; consulte PROJECT_STATE.md.
