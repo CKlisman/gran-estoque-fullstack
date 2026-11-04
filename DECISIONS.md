@@ -8,3 +8,5 @@
 - Desenho copiado mantém texto histórico de proposta; a aprovação e implementação estão registradas neste arquivo e no estado atual.
 
 - Revisão final: corrigida corrida entre upload PUT e DELETE/outro PUT mediante releitura após await e verificação de linhas alteradas. Teste de regressão RED→GREEN; suíte 8/8 HTTP e 3/3 navegador.
+
+- Publicação por upload GitHub após Git sem autenticação e conector 403. Textos remotos usam CRLF; igualdade conferida após normalizar quebras de linha e imagens conferidas byte a byte.

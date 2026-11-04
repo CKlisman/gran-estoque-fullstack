@@ -7,3 +7,6 @@ Código criado somente neste projeto. Consulte README, docs/DESIGN.md, docs/PLAN
 Próximo: revisar arquivos, registrar correções necessárias e publicar repositório `CKlisman/gran-estoque-fullstack`, confirmando arquivos remotos. Browser autenticado no perfil CKlisman. Conector não oferece criação de repositório; usar navegador para criar e tentar Git Credential Manager para push sem expor credenciais. Não tratar preenchimento do formulário de criação como publicação concluída.
 
 Revisão independente concluída e correção de concorrência verificada (RED→GREEN), sem nova rodada de revisão. Nenhum achado menor adiado. Próximo: confirmar publicação.
+
+
+Entrega confirmada em https://github.com/CKlisman/gran-estoque-fullstack. 40 arquivos remotos equivalem às fontes testadas; imagens coincidem byte a byte. Git push estava sem autenticação e conector recusou escrita (403); envio realizado pela interface autenticada. Próxima ação do usuário: copiar o link no campo da Gran. Não repetir implementação nem publicar Aprova T.I. neste repositório. CI está configurado, mas nenhuma execução remota apareceu na consulta; resultados alegados são os testes locais. Modelo sugerido para eventual texto de entrega: Luna/Light; nenhuma troca necessária para a entrega atual.
