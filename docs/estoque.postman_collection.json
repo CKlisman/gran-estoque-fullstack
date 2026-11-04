@@ -1,0 +1,357 @@
+{
+  "info": {
+    "name": "Gran — Estoque",
+    "description": "Dados fictícios. Criar entidades antes de associar; exclusões são opcionais e definitivas no banco local.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:4316/api"
+    },
+    {
+      "key": "productId",
+      "value": "1"
+    },
+    {
+      "key": "supplierId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Saúde",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "health"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Criar produto fictício",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Teclado USB compacto\",\n  \"barcode\": \"7890000000011\",\n  \"description\": \"Teclado com conexão USB, layout ABNT2. Cadastro demonstrativo.\",\n  \"category\": \"Eletrônicos\",\n  \"quantity\": 24,\n  \"price\": \"89.90\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) pm.collectionVariables.set('productId', pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Listar produtos",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Consultar produto",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Editar produto",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Teclado USB compacto\",\n  \"barcode\": \"7890000000011\",\n  \"description\": \"Teclado com conexão USB, layout ABNT2. Cadastro demonstrativo.\",\n  \"category\": \"Eletrônicos\",\n  \"quantity\": 30,\n  \"price\": \"89.90\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Criar fornecedor fictício",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/suppliers",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "suppliers"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Distribuidora Exemplo (fictícia)\",\n  \"cnpj\": \"11222333000181\",\n  \"address\": \"Rua de Exemplo, 100 — Cidade fictícia\",\n  \"phone\": \"85900000000\",\n  \"email\": \"distribuidora@example.com\",\n  \"contact\": \"Contato demonstrativo\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 201) pm.collectionVariables.set('supplierId', pm.response.json().id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Listar fornecedores",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/suppliers",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "suppliers"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Consultar fornecedor",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/suppliers/{{supplierId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "suppliers",
+            "{{supplierId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Editar fornecedor",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/suppliers/{{supplierId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "suppliers",
+            "{{supplierId}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Distribuidora Exemplo (fictícia)\",\n  \"cnpj\": \"11222333000181\",\n  \"address\": \"Rua de Exemplo, 100 — Cidade fictícia\",\n  \"phone\": \"85900000000\",\n  \"email\": \"distribuidora@example.com\",\n  \"contact\": \"Contato atualizado (fictício)\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Associar fornecedor",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}/suppliers/{{supplierId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}",
+            "suppliers",
+            "{{supplierId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fornecedores do produto",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}/suppliers",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}",
+            "suppliers"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Produtos do fornecedor",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/suppliers/{{supplierId}}/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "suppliers",
+            "{{supplierId}}",
+            "products"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Desassociar fornecedor",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}/suppliers/{{supplierId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}",
+            "suppliers",
+            "{{supplierId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Excluir produto",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products/{{productId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            "{{productId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Excluir fornecedor",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/suppliers/{{supplierId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "suppliers",
+            "{{supplierId}}"
+          ]
+        }
+      }
+    }
+  ]
+}
