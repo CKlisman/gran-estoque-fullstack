@@ -1,0 +1,9 @@
+node_modules/
+frontend/dist/
+backend/data/
+backend/uploads/
+test-results/
+playwright-report/
+.env
+*.log
+.DS_Store
