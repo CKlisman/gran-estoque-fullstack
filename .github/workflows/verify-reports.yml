@@ -1,0 +1,38 @@
+name: Verificar relatórios publicados
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: https://gran-estoque-fullstack.onrender.com
+    steps:
+      - name: Verificar duas chamadas novas com produto fictício temporário
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in {1..18}; do
+            if curl --fail --silent --show-error --max-time 20 "$BASE_URL/api/reports/stock-summary" > /tmp/health.json; then
+              break
+            fi
+            sleep 10
+          done
+          jq -e '.totals.product_count >= 0' /tmp/health.json
+          marker="Relatorio-Gran-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          product_id=""
+          trap 'if [ -n "$product_id" ]; then curl --fail --silent --show-error --max-time 30 -X DELETE "$BASE_URL/api/products/$product_id"; fi' EXIT
+          payload=$(jq -n --arg name "$marker" '{name:$name,description:"Dado ficticio temporario para verificar relatorios",category:"Validacao Gran",quantity:7,price:"24.99"}')
+          curl --fail --silent --show-error --max-time 30 -X POST "$BASE_URL/api/products" -H 'Content-Type: application/json' --data "$payload" > /tmp/product.json
+          product_id=$(jq -er '.id' /tmp/product.json)
+          summary_status=$(curl --silent --show-error --max-time 30 -o /tmp/summary.json -w '%{http_code}' "$BASE_URL/api/reports/stock-summary?q=$marker")
+          test "$summary_status" = 200
+          jq -e '.totals.product_count == 1 and .totals.total_quantity == 7 and .totals.total_value_cents == "17493"' /tmp/summary.json
+          csv_status=$(curl --silent --show-error --max-time 30 -D /tmp/headers -o /tmp/stock.csv -w '%{http_code}' "$BASE_URL/api/reports/stock.csv?q=$marker")
+          test "$csv_status" = 200
+          grep -qi 'content-type: text/csv' /tmp/headers
+          grep -F "$marker" /tmp/stock.csv
+          grep -F '"24,99";"174,93"' /tmp/stock.csv
+          echo "Resumo gerencial: HTTP $summary_status; 7 unidades; total 17493 centavos"
+          echo "Exportacao CSV: HTTP $csv_status; dados e Content-Type conferidos"
