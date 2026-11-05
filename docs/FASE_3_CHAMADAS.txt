@@ -1,0 +1,79 @@
+PROJETO INTEGRADOR — FASE 3 — ATIVIDADE PRÁTICA
+Questão 2: duas novas chamadas REST
+Aluno: Caio Klisman
+Repositório: https://github.com/CKlisman/gran-estoque-fullstack
+
+As rotas abaixo foram acrescentadas ao projeto acadêmico de estoque.
+Atendem às necessidades de consulta gerencial e exportação identificadas
+no levantamento sobre a AGEFIS. Não há integração com o SGA oficial.
+
+1) RESUMO GERENCIAL DO ESTOQUE
+
+Método: GET
+URL: https://gran-estoque-fullstack.onrender.com/api/reports/stock-summary
+Header: Accept: application/json
+Body: nenhum
+Autenticação: não requer
+Retorno esperado: HTTP 200, JSON com filters, totals e categories.
+
+Os totais incluem quantidade de produtos, unidades cadastradas, valor
+do saldo, produtos zerados e produtos com estoque baixo. A lista categories
+apresenta a mesma análise por categoria.
+
+O campo total_value_cents é string de centavos, para manter a precisão.
+Exemplo: "26290" equivale a R$ 262,90. Valor = quantidade x preço cadastrado.
+Estoque baixo: quantidade positiva até o limite threshold (padrão 5).
+Produtos zerados são contados separadamente.
+
+Exemplo para executar no terminal:
+curl -i "https://gran-estoque-fullstack.onrender.com/api/reports/stock-summary"
+
+2) EXPORTAÇÃO DO ESTOQUE PARA PLANILHA
+
+Método: GET
+URL: https://gran-estoque-fullstack.onrender.com/api/reports/stock.csv
+Header: Accept: text/csv
+Body: nenhum
+Autenticação: não requer
+Retorno esperado: HTTP 200, Content-Type text/csv; charset=utf-8.
+Download: estoque.csv.
+
+Colunas: id, nome, categoria, codigo_barras, quantidade,
+valor_unitario_reais, valor_total_reais, validade, cadastrado_em.
+Formato: UTF-8 com BOM, separador ponto e vírgula e valores em reais
+com vírgula decimal. Importar código de barras como texto para manter
+zeros iniciais. Textos semelhantes a fórmulas recebem apóstrofo protetor.
+
+Exemplo para salvar a resposta:
+curl -o estoque.csv "https://gran-estoque-fullstack.onrender.com/api/reports/stock.csv"
+
+COMO TESTAR NO INSOMNIA
+
+Criar duas requisições GET com as URLs acima e clicar em Send.
+Na primeira, observar o JSON. Na segunda, salvar a resposta como estoque.csv
+e abri-la em um aplicativo de planilha com delimitador ponto e vírgula.
+
+FILTROS OPCIONAIS NAS DUAS ROTAS
+
+q: pesquisa por nome ou código de barras (até 100 caracteres).
+category: categoria exata (até 100 caracteres).
+stock: all (todos), low (estoque baixo positivo) ou out (zerados).
+threshold: inteiro de 0 a 1.000.000.000; padrão 5.
+
+Exemplo:
+https://gran-estoque-fullstack.onrender.com/api/reports/stock-summary?stock=low&threshold=5
+
+Filtros inválidos retornam HTTP 400 com mensagem de erro.
+Se o banco estiver vazio, as rotas continuam válidas: o resumo retorna
+totais zerados e a exportação retorna somente o cabeçalho, ambos HTTP 200.
+É possível cadastrar produtos pela interface para observar os totais mudarem.
+
+EXECUÇÃO LOCAL ALTERNATIVA
+
+Baixar o repositório, usar Node.js 24, executar npm ci, npm run build e
+npm start. As mesmas chamadas estarão em:
+http://127.0.0.1:4316/api/reports/stock-summary
+http://127.0.0.1:4316/api/reports/stock.csv
+
+O serviço gratuito pode levar cerca de um minuto para iniciar após
+inatividade. O banco público é temporário; usar somente dados fictícios.

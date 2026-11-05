@@ -352,6 +352,40 @@
           ]
         }
       }
+    },
+    {
+      "name": "Fase 3 - resumo gerencial do estoque",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reports/stock-summary",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reports",
+            "stock-summary"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Fase 3 - exportacao CSV do estoque",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/reports/stock.csv",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "reports",
+            "stock.csv"
+          ]
+        }
+      }
     }
   ]
 }
