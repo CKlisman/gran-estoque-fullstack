@@ -61,6 +61,17 @@ Importe [a coleção Postman](docs/estoque.postman_collection.json). Ela contém
 
 ## Verificar
 
+### Novidade da Fase 3: relatórios de estoque
+
+Foram adicionados dois endpoints de leitura, relacionados à necessidade de analisar e exportar dados levantada no estudo da AGEFIS:
+
+- `GET /api/reports/stock-summary`: indicadores e totalização por categoria em JSON.
+- `GET /api/reports/stock.csv`: exportação CSV compatível com planilhas, com os mesmos filtros.
+
+[Duas chamadas para avaliação](docs/FASE_3_CHAMADAS.txt). [Filtros e contrato completo](docs/API.md#fase-3--duas-novas-chamadas-de-relatórios). Nenhuma integração foi feita com o SGA oficial; são funcionalidades novas deste protótipo acadêmico.
+
+### Comandos de verificação
+
 ```sh
 npm test
 npm run build
