@@ -1,0 +1,44 @@
+name: Verificar API publicada
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: https://gran-estoque-fullstack.onrender.com
+    steps:
+      - name: Aguardar API
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in {1..18}; do
+            if curl --fail --silent --show-error --max-time 20 "$BASE_URL/api/health" > /tmp/health.json; then
+              cat /tmp/health.json
+              exit 0
+            fi
+            sleep 10
+          done
+          exit 1
+      - name: Executar tres chamadas REST
+        shell: bash
+        run: |
+          set -euo pipefail
+          supplier_status=$(curl --silent --show-error --max-time 30 -o /tmp/supplier.json -w '%{http_code}' \
+            -X POST "$BASE_URL/api/suppliers" -H 'Content-Type: application/json' \
+            --data '{"name":"Fornecedor Exemplo","cnpj":"11.222.333/0001-81","address":"Rua Exemplo, 10","phone":"(85) 99999-0000","email":"contato@example.com","contact":"Contato de Teste"}')
+          test "$supplier_status" = 201
+          supplier_id=$(jq -er '.id' /tmp/supplier.json)
+          product_status=$(curl --silent --show-error --max-time 30 -o /tmp/product.json -w '%{http_code}' \
+            -X POST "$BASE_URL/api/products" -H 'Content-Type: application/json' \
+            --data '{"name":"Teclado de Demonstracao","description":"Produto ficticio para avaliacao da API","category":"Perifericos","quantity":3,"price":"49.90"}')
+          test "$product_status" = 201
+          product_id=$(jq -er '.id' /tmp/product.json)
+          association_status=$(curl --silent --show-error --max-time 30 -o /tmp/association.json -w '%{http_code}' \
+            -X POST "$BASE_URL/api/products/$product_id/suppliers/$supplier_id")
+          test "$association_status" = 201
+          jq -e '.message == "Fornecedor associado com sucesso ao produto!"' /tmp/association.json
+          echo "Fornecedor: HTTP $supplier_status (id=$supplier_id)"
+          echo "Produto: HTTP $product_status (id=$product_id)"
+          echo "Associacao: HTTP $association_status"
