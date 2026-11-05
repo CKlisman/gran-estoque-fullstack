@@ -8,6 +8,7 @@ import { HttpError } from "./validation.js";
 import { productsController } from "./controllers/products.js";
 import { suppliersController } from "./controllers/suppliers.js";
 import { associationsController } from "./controllers/associations.js";
+import { reportsController } from "./controllers/reports.js";
 const base = fileURLToPath(new URL("../../", import.meta.url));
 export function createApp({
   dbPath = resolve(base, "backend/data/estoque.db"),
@@ -53,6 +54,7 @@ export function createApp({
     productsController(db, uploadDir),
   );
   app.use("/api/suppliers", suppliersController(db));
+  app.use("/api/reports", reportsController(db));
   app.use("/api", (req, res, next) =>
     next(new HttpError(404, "Rota não encontrada.")),
   );
